@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Expense Calculator</string>
+    <string name="total_balance">Total balance</string>
+    <string name="balance">Balance</string>
+    <string name="expenses">Expenses</string>
+    <string name="grocery">Grocery</string>
+    <string name="electricity">Electricity</string>
+    <string name="water">Water</string>
+    <string name="gas">Gas</string>
+    <string name="fuel">Fuel</string>
+    <string name="internet">Internet</string>
 </resources>
