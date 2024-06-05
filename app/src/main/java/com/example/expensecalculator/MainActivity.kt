@@ -241,7 +241,11 @@ fun MinimalDialog(onDismissRequest: () -> Unit) {
     }
 }
 
+private fun calculateLeftOver( balance: Double, grocery: Double, electricity: Double, water: Double, gas: Double, fuel: Double): String {
+    var left_over = balance - (grocery + electricity + water + gas + fuel)
 
+    return NumberFormat.getCurrencyInstance().format(left_over)
+}
 
 
 
