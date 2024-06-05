@@ -1,33 +1,30 @@
 package com.example.expensecalculator
 
-import android.icu.text.NumberFormat
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExtendedFloatingActionButton
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallFloatingActionButton
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -38,11 +35,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -81,10 +81,10 @@ fun ExpenseCalculatorLayout() {
     val water = waterInput.toDoubleOrNull() ?: 0.0
     val gas = gasInput.toDoubleOrNull() ?: 0.0
     val fuel = fuelInput.toDoubleOrNull() ?: 0.0
-    val left_over = calculateLeftOver(balance, grocery, electricity, water, gas, fuel)
-
+    val internet = internetInput.toDoubleOrNull() ?: 0.0
+    val leftover = calculateLeftOver(balance, grocery, electricity, water, gas, fuel, internet)
     if (showDialog) {
-        MinimalDialog(onDismissRequest = { showDialog = false })
+      MinimalDialog(onDismissRequest = { showDialog = false },leftover)
     }
     Column (
         modifier = Modifier
@@ -169,14 +169,17 @@ fun ExpenseCalculatorLayout() {
                 .padding(bottom = 32.dp)
                 .fillMaxWidth()
         )
+        //Text(
+          //  text = leftover,
+          //  style = MaterialTheme.typography.displaySmall
+        //)
         FloatingButton(
-            onClick = {showDialog = true}
-        )
-
-
+            onClick = {showDialog = true},
+            )
 
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
@@ -221,7 +224,7 @@ fun FloatingButton(onClick: () -> Unit) {
 }
 
 @Composable
-fun MinimalDialog(onDismissRequest: () -> Unit) {
+fun MinimalDialog(onDismissRequest: () -> Unit, leftover: String) {
     Dialog(onDismissRequest = { onDismissRequest() }) {
         Card(
             modifier = Modifier
@@ -231,7 +234,9 @@ fun MinimalDialog(onDismissRequest: () -> Unit) {
             shape = RoundedCornerShape(16.dp),
         ) {
             Text(
-                text = "This is a minimal dialog",
+                //text = stringResource(R.string.remainder_result_text_1, leftover, R.string.remainder_result_text_2),
+                text = leftover,
+                style = MaterialTheme.typography.bodyMedium,
                 modifier = Modifier
                     .fillMaxSize()
                     .wrapContentSize(Alignment.Center),
@@ -241,10 +246,10 @@ fun MinimalDialog(onDismissRequest: () -> Unit) {
     }
 }
 
-private fun calculateLeftOver( balance: Double, grocery: Double, electricity: Double, water: Double, gas: Double, fuel: Double): String {
-    var left_over = balance - (grocery + electricity + water + gas + fuel)
 
-    return NumberFormat.getCurrencyInstance().format(left_over)
+private fun calculateLeftOver( balance: Double = 0.0, grocery: Double = 0.0, electricity: Double = 0.0, water: Double = 0.0, gas: Double = 0.0, fuel: Double = 0.0, internet: Double = 0.0): String {
+    val leftover = balance - (grocery + electricity + water + gas + fuel + internet)
+    return java.text.NumberFormat.getCurrencyInstance().format(leftover)
 }
 
 

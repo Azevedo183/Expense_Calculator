@@ -9,4 +9,7 @@
     <string name="gas">Gas</string>
     <string name="fuel">Fuel</string>
     <string name="internet">Internet</string>
+    <string name="remainder_result">Remainder of salary</string>
+    <string name="remainder_result_text_1">After paying expenses, there is</string>
+    <string name="remainder_result_text_2">of your salary left over</string>
 </resources>
