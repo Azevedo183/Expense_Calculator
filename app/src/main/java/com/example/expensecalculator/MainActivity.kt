@@ -163,16 +163,13 @@ fun ExpenseCalculatorLayout() {
         EditNumberField(
             label = R.string.internet,
             leadingIcon = R.drawable.wifi_solid,
+            action = ImeAction.Done,
             value = internetInput,
             onValueChanged = { internetInput = it },
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth()
         )
-        //Text(
-          //  text = leftover,
-          //  style = MaterialTheme.typography.displaySmall
-        //)
         FloatingButton(
             onClick = {showDialog = true},
             )
